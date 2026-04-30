@@ -561,9 +561,9 @@
                   class="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"
                 ></span>
                 <span
-                  class="font-grotesk text-[11px] uppercase tracking-widest text-cyan-400"
-                  >System Init: Operational</span
-                >
+                  id="typewriter-text"
+                  class="text-cyan-400 text-sm font-grotesk font-medium"
+                ></span>
               </div>
 
               <h1
@@ -1886,17 +1886,19 @@
               </div>
             </a>
             <a
-              href="tel:+201220940717"
+              href="https://wa.me/201220940717"
+              target="_blank"
+              rel="noopener"
               class="glass-cyan rounded-xl p-5 card-hover group flex flex-col items-center gap-3 text-center"
             >
               <span class="material-symbols-outlined text-cyan-400 text-3xl"
-                >phone</span
+                >chat</span
               >
               <div>
                 <p
                   class="text-[10px] text-slate-500 font-grotesk uppercase tracking-wider mb-0.5"
                 >
-                  Phone
+                  Whatsapp
                 </p>
                 <p class="text-white text-xs font-inter">+20 122 094 0717</p>
               </div>
@@ -2318,6 +2320,43 @@
             closeProjectModal();
           }
         });
+
+      /* ── Typewriter Effect ── */
+      const typewriterText = document.getElementById("typewriter-text");
+      const fullText =
+        "Available for freelance projects & long-term collaboration";
+      let index = 0;
+      let isDeleting = false;
+      let typingSpeed = 100; // ms per character
+      let pauseTime = 2000; // pause at end of text
+
+      function typeWriter() {
+        if (!isDeleting) {
+          // Typing
+          typewriterText.textContent = fullText.substring(0, index + 1);
+          index++;
+          if (index === fullText.length) {
+            isDeleting = true;
+            setTimeout(typeWriter, pauseTime);
+            return;
+          }
+        } else {
+          // Deleting
+          typewriterText.textContent = fullText.substring(0, index - 1);
+          index--;
+          if (index === 0) {
+            isDeleting = false;
+            setTimeout(typeWriter, pauseTime);
+            return;
+          }
+        }
+        setTimeout(typeWriter, typingSpeed);
+      }
+
+      // Start the typewriter effect when page loads
+      window.addEventListener("load", () => {
+        setTimeout(typeWriter, 1000); // Start after 1 second
+      });
     </script>
   </body>
 </html>
