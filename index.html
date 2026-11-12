@@ -343,6 +343,84 @@
         font-family: "Space Grotesk", sans-serif;
         font-weight: 600;
       }
+
+      /* ── Category selector cards ── */
+      .category-card {
+        background: linear-gradient(135deg, #0d1829, #0c1a2e);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        padding: 32px 28px;
+        cursor: pointer;
+        text-align: left;
+        width: 100%;
+        transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s, background 0.3s;
+      }
+      .category-card:hover {
+        border-color: rgba(34, 211, 238, 0.4);
+        box-shadow: 0 0 32px rgba(34, 211, 238, 0.14);
+        transform: translateY(-4px);
+      }
+      .category-card.active {
+        border-color: rgba(34, 211, 238, 0.55);
+        box-shadow: 0 0 36px rgba(34, 211, 238, 0.2);
+        background: linear-gradient(135deg, rgba(34, 211, 238, 0.07) 0%, rgba(59, 130, 246, 0.05) 100%);
+      }
+      .category-icon-wrap {
+        width: 52px;
+        height: 52px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 18px;
+        flex-shrink: 0;
+      }
+
+      /* ── Project card enter/exit animation ── */
+      .proj-card-anim {
+        animation: proj-fade-in 0.45s ease forwards;
+      }
+      @keyframes proj-fade-in {
+        from { opacity: 0; transform: translateY(22px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+
+      /* ── Back to categories button ── */
+      .back-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 18px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 10px;
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 11px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #64748b;
+        cursor: pointer;
+        transition: all 0.25s;
+      }
+      .back-btn:hover {
+        background: rgba(34, 211, 238, 0.08);
+        border-color: rgba(34, 211, 238, 0.35);
+        color: #22d3ee;
+      }
+
+      /* ── Category label badge above project grid ── */
+      .active-category-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 5px 14px;
+        border-radius: 9999px;
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
     </style>
   </head>
 
@@ -1205,38 +1283,109 @@
       </section>
 
       <!-- ─────────────────────────────────────────
-       PROJECTS  (IMPROVED: full cards with GitHub links, better layout)
+       PROJECTS  (IMPROVED: category navigation + 7 projects)
   ───────────────────────────────────────── -->
       <section id="projects" class="py-28 px-8 md:px-16 xl:px-24 bg-[#080f20]">
         <div class="max-w-6xl mx-auto">
-          <div class="flex flex-wrap justify-between items-end mb-14">
-            <div>
-              <div class="section-label mb-3 aos">Deployed Assets</div>
-              <h2
-                class="font-grotesk font-bold text-3xl md:text-4xl text-white aos"
-                style="transition-delay: 0.1s"
-              >
-                Selected <span class="text-cyan-400">Projects</span>
-              </h2>
-            </div>
-            <a
-              href="https://github.com/El-drini"
-              target="_blank"
-              rel="noopener"
-              class="text-cyan-400 font-grotesk text-xs uppercase tracking-widest hover:underline aos"
-              style="transition-delay: 0.15s"
-              >View All on GitHub →</a
+
+          <!-- Section header -->
+          <div class="mb-12">
+            <div class="section-label mb-3 aos">Deployed Assets</div>
+            <h2
+              class="font-grotesk font-bold text-3xl md:text-4xl text-white aos"
+              style="transition-delay: 0.1s"
             >
+              Selected <span class="text-cyan-400">Projects</span>
+            </h2>
           </div>
 
-          <div class="grid md:grid-cols-2 gap-6">
-            <!-- Project 1: Hasibha -->
+          <!-- ── Category Selector Screen ── -->
+          <div id="category-screen">
+            <p class="text-slate-500 text-sm font-grotesk mb-8 aos" style="transition-delay:0.15s">
+              Select a category to explore the projects.
+            </p>
+            <div class="grid sm:grid-cols-2 gap-6 aos" style="transition-delay:0.2s">
+
+              <!-- Data Analysis card -->
+              <button
+                class="category-card"
+                id="btn-da"
+                onclick="selectCategory('da')"
+                aria-label="View Data Analysis projects"
+              >
+                <div class="category-icon-wrap" style="background: rgba(167,139,250,0.12); border: 1px solid rgba(167,139,250,0.25);">
+                  <span class="material-symbols-outlined" style="color:#a78bfa; font-size:26px;">bar_chart</span>
+                </div>
+                <h3 class="font-grotesk font-bold text-white text-xl mb-1">Data Analysis</h3>
+                <p class="font-grotesk text-xs uppercase tracking-widest mb-4" style="color:#a78bfa;">3 Projects</p>
+                <p class="text-slate-400 text-sm leading-relaxed mb-5">
+                  Interactive dashboards and business intelligence solutions built with Power BI and SQL Server.
+                </p>
+                <div class="flex flex-wrap gap-2">
+                  <span class="chip" style="border-color:rgba(167,139,250,0.3);color:#a78bfa;">Power BI</span>
+                  <span class="chip" style="border-color:rgba(167,139,250,0.3);color:#a78bfa;">SQL Server</span>
+                  <span class="chip" style="border-color:rgba(167,139,250,0.3);color:#a78bfa;">Dashboards</span>
+                </div>
+              </button>
+
+              <!-- Data Science & ML card -->
+              <button
+                class="category-card"
+                id="btn-ml"
+                onclick="selectCategory('ml')"
+                aria-label="View Data Science and Machine Learning projects"
+              >
+                <div class="category-icon-wrap" style="background: rgba(34,211,238,0.1); border: 1px solid rgba(34,211,238,0.22);">
+                  <span class="material-symbols-outlined" style="color:#22d3ee; font-size:26px;">psychology</span>
+                </div>
+                <h3 class="font-grotesk font-bold text-white text-xl mb-1">Data Science &amp; ML</h3>
+                <p class="font-grotesk text-xs uppercase tracking-widest mb-4" style="color:#22d3ee;">4 Projects</p>
+                <p class="text-slate-400 text-sm leading-relaxed mb-5">
+                  Machine learning models, predictive analytics, and AI-powered applications built with Python.
+                </p>
+                <div class="flex flex-wrap gap-2">
+                  <span class="chip">Python</span>
+                  <span class="chip">Scikit-learn</span>
+                  <span class="chip">ML Models</span>
+                </div>
+              </button>
+
+            </div>
+
+            <!-- GitHub profile link (only on selector screen) -->
+            <div class="mt-8 flex justify-end aos" style="transition-delay:0.25s">
+              <a
+                href="https://github.com/El-drini"
+                target="_blank"
+                rel="noopener"
+                class="text-cyan-400 font-grotesk text-xs uppercase tracking-widest hover:underline"
+              >View All on GitHub →</a>
+            </div>
+          </div>
+
+          <!-- ── Projects Grid Screen (hidden by default) ── -->
+          <div id="projects-screen" style="display:none;">
+
+            <!-- Top bar: back button + active category label -->
+            <div class="flex items-center justify-between mb-8 flex-wrap gap-4">
+              <button class="back-btn" onclick="showCategoryScreen()" aria-label="Back to categories">
+                <span class="material-symbols-outlined text-[16px]">arrow_back</span>
+                Back to Categories
+              </button>
+              <span id="active-category-label" class="active-category-label"></span>
+            </div>
+
+            <div id="projects-grid" class="grid md:grid-cols-2 gap-6">
+
+            <!-- ════════════════════════════════════════
+                 DATA SCIENCE & ML CARDS  (data-category="ml")
+                 ════════════════════════════════════════ -->
+
+            <!-- Project ML-1: Hasibha -->
             <div
-              class="group relative overflow-hidden rounded-xl border border-white/10 hover:border-cyan-400/50 transition-all card-hover aos cursor-pointer"
-              style="
-                background: linear-gradient(135deg, #0d1829, #0c1a2e);
-                transition-delay: 0.05s;
-              "
+              data-category="ml"
+              class="group relative overflow-hidden rounded-xl border border-white/10 hover:border-cyan-400/50 transition-all card-hover cursor-pointer"
+              style="background: linear-gradient(135deg, #0d1829, #0c1a2e);"
               onclick="openProjectModal('hasibha')"
             >
               <img
@@ -1297,9 +1446,12 @@
                   </p>
                 </div>
                 <div class="flex flex-wrap gap-2 mb-5">
-                  <span class="chip">Python</span>
-                  <span class="chip">LLM APIs</span>
-                  <span class="chip">AI Automation</span>
+                  <span class="chip">Node.js + Express.js</span>
+                  <span class="chip">OpenAI APIs</span>
+                  <span class="chip">Azure Services</span>
+                  <span class="chip">MongoDB — NoSQL</span>
+                  <span class="chip">Firebase Cloud Messaging</span>
+                  <span class="chip">Flutter (Dart)</span>
                   <span class="chip">Prompt Engineering</span>
                 </div>
                 <div class="flex items-center gap-3">
@@ -1319,13 +1471,11 @@
               </div>
             </div>
 
-            <!-- Project 2: Student Performance -->
+            <!-- Project ML-2: Student Performance -->
             <div
-              class="group relative overflow-hidden rounded-xl border border-white/10 hover:border-blue-400/50 transition-all card-hover aos cursor-pointer"
-              style="
-                background: linear-gradient(135deg, #0d1829, #0c1a2e);
-                transition-delay: 0.1s;
-              "
+              data-category="ml"
+              class="group relative overflow-hidden rounded-xl border border-white/10 hover:border-blue-400/50 transition-all card-hover cursor-pointer"
+              style="background: linear-gradient(135deg, #0d1829, #0c1a2e);"
               onclick="openProjectModal('student-performance')"
             >
               <img
@@ -1409,13 +1559,11 @@
               </div>
             </div>
 
-            <!-- Project 3: Heart Attack Prediction -->
+            <!-- Project ML-3: Heart Attack Prediction -->
             <div
-              class="group relative overflow-hidden rounded-xl border border-white/10 hover:border-red-400/40 transition-all card-hover aos cursor-pointer"
-              style="
-                background: linear-gradient(135deg, #0d1829, #0c1a2e);
-                transition-delay: 0.15s;
-              "
+              data-category="ml"
+              class="group relative overflow-hidden rounded-xl border border-white/10 hover:border-red-400/40 transition-all card-hover cursor-pointer"
+              style="background: linear-gradient(135deg, #0d1829, #0c1a2e);"
               onclick="openProjectModal('heart-attack')"
             >
               <img
@@ -1498,13 +1646,11 @@
               </div>
             </div>
 
-            <!-- Project 4: Loan Approval -->
+            <!-- Project ML-4: Loan Approval -->
             <div
-              class="group relative overflow-hidden rounded-xl border border-white/10 hover:border-green-400/40 transition-all card-hover aos cursor-pointer"
-              style="
-                background: linear-gradient(135deg, #0d1829, #0c1a2e);
-                transition-delay: 0.2s;
-              "
+              data-category="ml"
+              class="group relative overflow-hidden rounded-xl border border-white/10 hover:border-green-400/40 transition-all card-hover cursor-pointer"
+              style="background: linear-gradient(135deg, #0d1829, #0c1a2e);"
               onclick="openProjectModal('loan-approval')"
             >
               <img
@@ -1585,7 +1731,128 @@
                 </a>
               </div>
             </div>
-          </div>
+
+            <!-- ════════════════════════════════════════
+                 DATA ANALYSIS CARDS  (data-category="da")
+                 ════════════════════════════════════════ -->
+
+            <!-- Project DA-1: HR Analytics Dashboard -->
+            <div
+              data-category="da"
+              class="group relative overflow-hidden rounded-xl border border-white/10 hover:border-violet-400/50 transition-all card-hover cursor-pointer"
+              style="background: linear-gradient(135deg, #0d1829, #0c1a2e);"
+              onclick="openProjectModal('hr-analytics')"
+            >
+              <img
+                src="Images/employee_dashboard.jpeg"
+                alt="HR Analytics Dashboard"
+                class="w-full h-32 object-cover object-center opacity-80 group-hover:opacity-100 transition-opacity bg-slate-950/10"
+              />
+              <div class="h-1 w-full bg-gradient-to-r from-violet-600 to-purple-400 group-hover:h-1.5 transition-all"></div>
+              <div class="p-7">
+                <div class="flex items-start justify-between mb-4">
+                  <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style="background:rgba(167,139,250,0.12);">
+                    <span class="material-symbols-outlined text-2xl" style="color:#a78bfa;">groups</span>
+                  </div>
+                  <span class="chip" style="border-color:rgba(167,139,250,0.3);color:#a78bfa;">Power BI</span>
+                </div>
+                <h3 class="font-grotesk font-bold text-white text-xl mb-1">HR Analytics Dashboard</h3>
+                <p class="text-xs font-grotesk uppercase tracking-wider mb-3" style="color:#a78bfa;">Workforce Intelligence</p>
+                <div class="mb-3">
+                  <p class="text-slate-500 text-xs font-grotesk uppercase tracking-wider mb-1.5">The Project</p>
+                  <p class="text-slate-400 text-sm leading-relaxed">
+                    Interactive Power BI dashboard analyzing workforce data for 689 employees — tracking salary KPIs, overtime hours, unpaid leaves, and job ratings across departments and regions.
+                  </p>
+                </div>
+                <p class="text-sm font-grotesk font-medium mb-4" style="color:#a78bfa;">✓ Hiring trends 2016–2020 · Geographic headcount map</p>
+                <div class="flex flex-wrap gap-2">
+                  <span class="chip" style="border-color:rgba(167,139,250,0.3);color:#a78bfa;">Power BI</span>
+                  <span class="chip" style="border-color:rgba(167,139,250,0.3);color:#a78bfa;">DAX</span>
+                  <span class="chip" style="border-color:rgba(167,139,250,0.3);color:#a78bfa;">Data Visualization</span>
+                  <span class="chip" style="border-color:rgba(167,139,250,0.3);color:#a78bfa;">KPI Analysis</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Project DA-2: Financial Performance & Sales Analytics Dashboard -->
+            <div
+              data-category="da"
+              class="group relative overflow-hidden rounded-xl border border-white/10 hover:border-amber-400/50 transition-all card-hover cursor-pointer"
+              style="background: linear-gradient(135deg, #0d1829, #0c1a2e);"
+              onclick="openProjectModal('financial-dashboard')"
+            >
+              <img
+                src="Images/financial_dashboard.png"
+                alt="Financial Performance & Sales Analytics Dashboard"
+                class="w-full h-32 object-cover object-center opacity-80 group-hover:opacity-100 transition-opacity bg-slate-950/10"
+              />
+              <div class="h-1 w-full bg-gradient-to-r from-amber-600 to-orange-400 group-hover:h-1.5 transition-all"></div>
+              <div class="p-7">
+                <div class="flex items-start justify-between mb-4">
+                  <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style="background:rgba(251,191,36,0.1);">
+                    <span class="material-symbols-outlined text-2xl" style="color:#fbbf24;">show_chart</span>
+                  </div>
+                  <span class="chip" style="border-color:rgba(251,191,36,0.3);color:#fbbf24;">Power BI</span>
+                </div>
+                <h3 class="font-grotesk font-bold text-white text-xl mb-1">Financial Performance &amp; Sales Analytics</h3>
+                <p class="text-xs font-grotesk uppercase tracking-wider mb-3" style="color:#fbbf24;">Sales &amp; Profitability Analytics</p>
+                <div class="mb-3">
+                  <p class="text-slate-500 text-xs font-grotesk uppercase tracking-wider mb-1.5">The Project</p>
+                  <p class="text-slate-400 text-sm leading-relaxed">
+                    Interactive financial dashboard analyzing sales and profitability across countries, products, and market segments — with country-based filters and yearly trend visualization (2013–2014).
+                  </p>
+                </div>
+                <p class="text-sm font-grotesk font-medium mb-4" style="color:#fbbf24;">✓ Multi-country · Discount band &amp; segment analysis</p>
+                <div class="flex flex-wrap gap-2">
+                  <span class="chip" style="border-color:rgba(251,191,36,0.3);color:#fbbf24;">Power BI</span>
+                  <span class="chip" style="border-color:rgba(251,191,36,0.3);color:#fbbf24;">Sales Analytics</span>
+                  <span class="chip" style="border-color:rgba(251,191,36,0.3);color:#fbbf24;">Data Visualization</span>
+                  <span class="chip" style="border-color:rgba(251,191,36,0.3);color:#fbbf24;">KPI Analysis</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Project DA-3: Advanced SQL Server University Enrollment & Analytics -->
+            <div
+              data-category="da"
+              class="group relative overflow-hidden rounded-xl border border-white/10 hover:border-emerald-400/50 transition-all card-hover cursor-pointer"
+              style="background: linear-gradient(135deg, #0d1829, #0c1a2e);"
+              onclick="openProjectModal('sql-university')"
+            >
+              <img
+                src="Images/Universty_dashboard.jpeg"
+                alt="SQL Server University Enrollment & Analytics"
+                class="w-full h-32 object-cover object-center opacity-80 group-hover:opacity-100 transition-opacity bg-slate-950/10"
+              />
+              <div class="h-1 w-full bg-gradient-to-r from-emerald-600 to-teal-400 group-hover:h-1.5 transition-all"></div>
+              <div class="p-7">
+                <div class="flex items-start justify-between mb-4">
+                  <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style="background:rgba(52,211,153,0.1);">
+                    <span class="material-symbols-outlined text-2xl" style="color:#34d399;">storage</span>
+                  </div>
+                  <span class="chip" style="border-color:rgba(52,211,153,0.3);color:#34d399;">SQL Server</span>
+                </div>
+                <h3 class="font-grotesk font-bold text-white text-xl mb-1">SQL Server University Enrollment &amp; Analytics</h3>
+                <p class="text-xs font-grotesk uppercase tracking-wider mb-3" style="color:#34d399;">Database Engineering &amp; BI</p>
+                <div class="mb-3">
+                  <p class="text-slate-500 text-xs font-grotesk uppercase tracking-wider mb-1.5">The Project</p>
+                  <p class="text-slate-400 text-sm leading-relaxed">
+                    Designed SQL Server database workflows — views, stored procedures, functions, triggers, transactions, and indexing — then connected analytical outputs to Power BI for interactive reporting.
+                  </p>
+                </div>
+                <p class="text-sm font-grotesk font-medium mb-4" style="color:#34d399;">✓ Reusable DB objects · Power BI integrated dashboards</p>
+                <div class="flex flex-wrap gap-2">
+                  <span class="chip" style="border-color:rgba(52,211,153,0.3);color:#34d399;">SQL Server</span>
+                  <span class="chip" style="border-color:rgba(52,211,153,0.3);color:#34d399;">Power BI</span>
+                  <span class="chip" style="border-color:rgba(52,211,153,0.3);color:#34d399;">Stored Procedures</span>
+                  <span class="chip" style="border-color:rgba(52,211,153,0.3);color:#34d399;">Data Modeling</span>
+                </div>
+              </div>
+            </div>
+
+            </div><!-- /#projects-grid -->
+          </div><!-- /#projects-screen -->
+
         </div>
       </section>
 
@@ -2123,20 +2390,20 @@
           image: "Images/hasibha.png",
           github: "#",
           content: `
+            
             <div class="mb-6">
-              <h4 class="text-cyan-400 text-lg font-grotesk font-semibold mb-3">The Problem</h4>
-              <p class="text-slate-300 mb-4">Financial decision-making is overwhelming due to scattered expenses and limited literacy tools. People track numbers — but struggle to turn data into actionable decisions.</p>
-            </div>
-            <div class="mb-6">
-              <h4 class="text-cyan-400 text-lg font-grotesk font-semibold mb-3">The Vision</h4>
-              <p class="text-slate-300 mb-4">Bridges raw financial data and personalized guidance — transforming information into clear budgeting, forecasting, and planning recommendations.</p>
+              <h4 class="text-cyan-400 text-lg font-grotesk font-semibold mb-3">Description:</h4>
+              <p class="text-slate-300 mb-4">A smart mobile application that helps users — especially students and young professionals — manage their personal finances with ease. The app combines core budgeting tools like expense tracking, budget planning, savings goals, and debt management with innovative AI-powered features. Users can log transactions in multiple formats (text, voice, photos, scanned invoices), get personalized financial insights from an AI assistant, and even collaborate on shared budgets with family or roommates. The goal is to make financial well-being accessible, practical, and intelligent.</p>
             </div>
             <div class="mb-6">
               <h4 class="text-cyan-400 text-lg font-grotesk font-semibold mb-3">Technologies Used</h4>
               <div class="flex flex-wrap gap-2 mb-4">
-                <span class="chip">Python</span>
-                <span class="chip">LLM APIs</span>
-                <span class="chip">AI Automation</span>
+                <span class="chip">Node.js + Express.js</span>
+                <span class="chip">OpenAI APIs</span>
+                <span class="chip">Azure Services</span>
+                <span class="chip">MongoDB — NoSQL</span>
+                <span class="chip">Firebase Cloud Messaging</span>
+                <span class="chip">Flutter (Dart)</span>
                 <span class="chip">Prompt Engineering</span>
               </div>
             </div>
@@ -2276,6 +2543,130 @@
             </div>
           `,
         },
+
+        /* ── DATA ANALYSIS PROJECTS ── */
+        "hr-analytics": {
+          title: "HR Analytics Dashboard",
+          subtitle: "Workforce Intelligence · Power BI",
+          image: "Images/employee_dashboard.jpeg",
+          github: null,
+          content: `
+            <div class="mb-6">
+              <h4 class="text-lg font-grotesk font-semibold mb-3" style="color:#a78bfa;">Project Overview</h4>
+              <p class="text-slate-300 mb-4">Designed an interactive Power BI dashboard to analyze workforce data for <strong class="text-white">689 employees</strong>, providing HR teams with a comprehensive view of key workforce metrics and trends.</p>
+            </div>
+            <div class="mb-6">
+              <h4 class="text-lg font-grotesk font-semibold mb-3" style="color:#a78bfa;">Key KPIs Tracked</h4>
+              <div class="grid grid-cols-2 gap-3 mb-4">
+                <div class="p-3 rounded-lg" style="background:rgba(167,139,250,0.08);border:1px solid rgba(167,139,250,0.2);">
+                  <p class="text-white font-grotesk font-bold text-lg">1.4M</p>
+                  <p class="text-slate-400 text-xs">Monthly Salary</p>
+                </div>
+                <div class="p-3 rounded-lg" style="background:rgba(167,139,250,0.08);border:1px solid rgba(167,139,250,0.2);">
+                  <p class="text-white font-grotesk font-bold text-lg">9,441</p>
+                  <p class="text-slate-400 text-xs">Overtime Hours</p>
+                </div>
+                <div class="p-3 rounded-lg" style="background:rgba(167,139,250,0.08);border:1px solid rgba(167,139,250,0.2);">
+                  <p class="text-white font-grotesk font-bold text-lg">523</p>
+                  <p class="text-slate-400 text-xs">Unpaid Leaves</p>
+                </div>
+                <div class="p-3 rounded-lg" style="background:rgba(167,139,250,0.08);border:1px solid rgba(167,139,250,0.2);">
+                  <p class="text-white font-grotesk font-bold text-lg">3.59</p>
+                  <p class="text-slate-400 text-xs">Avg Job Rating</p>
+                </div>
+              </div>
+            </div>
+            <div class="mb-6">
+              <h4 class="text-lg font-grotesk font-semibold mb-3" style="color:#a78bfa;">Analysis Highlights</h4>
+              <ul class="list-disc list-inside text-slate-300 space-y-2">
+                <li>Analyzed headcount distribution by department, work center, gender, and country using donut charts, bar charts, and a geographic map</li>
+                <li>Visualized hiring trends from <strong class="text-white">2016 to 2020</strong> with an area chart, highlighting growth through the 2019 recruitment peak</li>
+                <li>Surfaced workforce composition patterns to support strategic HR decision-making</li>
+              </ul>
+            </div>
+            <div class="mb-6">
+              <h4 class="text-lg font-grotesk font-semibold mb-3" style="color:#a78bfa;">Technologies Used</h4>
+              <div class="flex flex-wrap gap-2">
+                <span class="chip" style="border-color:rgba(167,139,250,0.3);color:#a78bfa;">Power BI</span>
+                <span class="chip" style="border-color:rgba(167,139,250,0.3);color:#a78bfa;">DAX</span>
+                <span class="chip" style="border-color:rgba(167,139,250,0.3);color:#a78bfa;">Data Visualization</span>
+                <span class="chip" style="border-color:rgba(167,139,250,0.3);color:#a78bfa;">KPI Analysis</span>
+                <span class="chip" style="border-color:rgba(167,139,250,0.3);color:#a78bfa;">Geographic Mapping</span>
+              </div>
+            </div>
+          `,
+        },
+
+        "financial-dashboard": {
+          title: "Financial Performance & Sales Analytics Dashboard",
+          subtitle: "Sales & Profitability Analytics · Power BI",
+          image: "Images/financial_dashboard.png",
+          github: null,
+          content: `
+            <div class="mb-6">
+              <h4 class="text-lg font-grotesk font-semibold mb-3" style="color:#fbbf24;">Project Overview</h4>
+              <p class="text-slate-300 mb-4">Developed an interactive Power BI financial dashboard to analyze sales and profitability performance across <strong class="text-white">multiple countries and market segments</strong>, enabling data-driven business decisions.</p>
+            </div>
+            <div class="mb-6">
+              <h4 class="text-lg font-grotesk font-semibold mb-3" style="color:#fbbf24;">Analysis Scope</h4>
+              <ul class="list-disc list-inside text-slate-300 space-y-2">
+                <li>Analyzed sales performance across <strong class="text-white">countries, products, discount bands, and customer segments</strong> to identify trends and business patterns</li>
+                <li>Visualized yearly sales and profit trends <strong class="text-white">(2013–2014)</strong> to provide insights into financial performance and business growth</li>
+                <li>Designed interactive visualizations and <strong class="text-white">country-based filters</strong> to support data exploration and business decision-making</li>
+                <li>Transformed raw financial datasets into structured, decision-ready reports</li>
+              </ul>
+            </div>
+            <div class="mb-6">
+              <h4 class="text-lg font-grotesk font-semibold mb-3" style="color:#fbbf24;">Technologies Used</h4>
+              <div class="flex flex-wrap gap-2">
+                <span class="chip" style="border-color:rgba(251,191,36,0.3);color:#fbbf24;">Power BI</span>
+                <span class="chip" style="border-color:rgba(251,191,36,0.3);color:#fbbf24;">DAX</span>
+                <span class="chip" style="border-color:rgba(251,191,36,0.3);color:#fbbf24;">Sales Analytics</span>
+                <span class="chip" style="border-color:rgba(251,191,36,0.3);color:#fbbf24;">Data Visualization</span>
+                <span class="chip" style="border-color:rgba(251,191,36,0.3);color:#fbbf24;">KPI Analysis</span>
+              </div>
+            </div>
+          `,
+        },
+
+        "sql-university": {
+          title: "Advanced SQL Server University Enrollment & Analytics",
+          subtitle: "Database Engineering & BI · SQL Server + Power BI",
+          image: "Images/Universty_dashboard.jpeg",
+          github: null,
+          content: `
+            <div class="mb-6">
+              <h4 class="text-lg font-grotesk font-semibold mb-3" style="color:#34d399;">Project Overview</h4>
+              <p class="text-slate-300 mb-4">Designed a comprehensive SQL Server database system for university enrollment analytics, implementing advanced database engineering patterns and connecting the analytical outputs to Power BI for interactive reporting.</p>
+            </div>
+            <div class="mb-6">
+              <h4 class="text-lg font-grotesk font-semibold mb-3" style="color:#34d399;">Database Engineering</h4>
+              <ul class="list-disc list-inside text-slate-300 space-y-2">
+                <li>Designed SQL Server database workflows including <strong class="text-white">views, stored procedures, functions, triggers, transactions, and indexing</strong></li>
+                <li>Created analytical queries and reusable database objects to support reporting and data-driven analysis</li>
+                <li>Applied indexing strategies and transaction management for data integrity and performance</li>
+              </ul>
+            </div>
+            <div class="mb-6">
+              <h4 class="text-lg font-grotesk font-semibold mb-3" style="color:#34d399;">Business Intelligence</h4>
+              <ul class="list-disc list-inside text-slate-300 space-y-2">
+                <li>Connected analytical SQL outputs to <strong class="text-white">Power BI</strong> for interactive reporting and dashboard development</li>
+                <li>Built reusable reporting infrastructure supporting enrollment trend analysis</li>
+              </ul>
+            </div>
+            <div class="mb-6">
+              <h4 class="text-lg font-grotesk font-semibold mb-3" style="color:#34d399;">Technologies Used</h4>
+              <div class="flex flex-wrap gap-2">
+                <span class="chip" style="border-color:rgba(52,211,153,0.3);color:#34d399;">SQL Server</span>
+                <span class="chip" style="border-color:rgba(52,211,153,0.3);color:#34d399;">T-SQL</span>
+                <span class="chip" style="border-color:rgba(52,211,153,0.3);color:#34d399;">Power BI</span>
+                <span class="chip" style="border-color:rgba(52,211,153,0.3);color:#34d399;">Stored Procedures</span>
+                <span class="chip" style="border-color:rgba(52,211,153,0.3);color:#34d399;">Data Modeling</span>
+                <span class="chip" style="border-color:rgba(52,211,153,0.3);color:#34d399;">Database Design</span>
+              </div>
+            </div>
+          `,
+        },
       };
 
       function openProjectModal(projectId) {
@@ -2289,7 +2680,7 @@
         document.getElementById("modal-content").innerHTML = data.content;
 
         const githubBtn = document.getElementById("modal-github");
-        if (data.github === "#") {
+        if (!data.github || data.github === "#") {
           githubBtn.style.display = "none";
         } else {
           githubBtn.href = data.github;
@@ -2303,6 +2694,56 @@
       function closeProjectModal() {
         document.getElementById("project-modal").classList.add("hidden");
         document.body.style.overflow = "auto";
+      }
+
+      /* ── Category Navigation Functions ── */
+      function selectCategory(category) {
+        const catScreen = document.getElementById("category-screen");
+        const projScreen = document.getElementById("projects-screen");
+        const label = document.getElementById("active-category-label");
+        const cards = document.querySelectorAll("#projects-grid > [data-category]");
+
+        // Hide category screen and show project screen
+        catScreen.style.display = "none";
+        projScreen.style.display = "block";
+
+        if (category === "da") {
+          label.textContent = "Data Analysis (3 Projects)";
+          label.style.background = "rgba(167, 139, 250, 0.12)";
+          label.style.border = "1px solid rgba(167, 139, 250, 0.3)";
+          label.style.color = "#a78bfa";
+        } else if (category === "ml") {
+          label.textContent = "Data Science & ML (4 Projects)";
+          label.style.background = "rgba(34, 211, 238, 0.12)";
+          label.style.border = "1px solid rgba(34, 211, 238, 0.3)";
+          label.style.color = "#22d3ee";
+        }
+
+        // Show matching cards with animation, hide others
+        cards.forEach((card) => {
+          if (card.getAttribute("data-category") === category) {
+            card.style.display = "block";
+            card.classList.remove("proj-card-anim");
+            void card.offsetWidth; // trigger reflow
+            card.classList.add("proj-card-anim");
+          } else {
+            card.style.display = "none";
+          }
+        });
+
+        // Smooth scroll to projects section header
+        document.getElementById("projects").scrollIntoView({ behavior: "smooth" });
+      }
+
+      function showCategoryScreen() {
+        const catScreen = document.getElementById("category-screen");
+        const projScreen = document.getElementById("projects-screen");
+
+        projScreen.style.display = "none";
+        catScreen.style.display = "block";
+
+        // Smooth scroll back to projects section
+        document.getElementById("projects").scrollIntoView({ behavior: "smooth" });
       }
 
       // Close modal on escape key
